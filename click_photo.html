@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Access and Capture Photo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f5;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #444;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        #video {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 15px;
+        }
+
+        #capture-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #capture-btn:hover {
+            background-color: #0056b3;
+        }
+
+        #canvas {
+            display: none;
+        }
+
+        #photo {
+            width: 100%;
+            max-width: 400px;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+        @media (max-width: 500px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            #capture-btn {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Camera Access and Capture Photo</h1>
+    <video id="video" autoplay></video>
+    <button id="capture-btn">Capture Photo</button>
+    <canvas id="canvas"></canvas>
+    <img id="photo" alt="Captured Photo">
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const photo = document.getElementById('photo');
+            const captureBtn = document.getElementById('capture-btn');
+            const context = canvas.getContext('2d');
+
+            // Access the camera
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then((stream) => {
+                    video.srcObject = stream;
+                })
+                .catch((err) => {
+                    console.error('Error accessing the camera: ', err);
+                });
+
+            // Capture the photo when the button is clicked
+            captureBtn.addEventListener('click', () => {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                // Convert the canvas to a data URL and display it
+                const dataUrl = canvas.toDataURL('image/png');
+                photo.src = dataUrl;
+                photo.style.display = 'block';
+
+                // Send the image data to the server
+                fetch('/upload', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ image: dataUrl })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Server response:', data);
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+    </script>
+</body>
+</html>

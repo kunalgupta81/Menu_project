@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Launch EC2 Instance</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #000;
+            color: white;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #FF4500;
+            border-radius: 10px;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: right;
+            padding: 20px;
+            background-color: transparent;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar.sticky {
+            background-color: #1b1b1b;
+        }
+
+        .navbar a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #FF4500;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .navbar a::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: #FF4500;
+            bottom: 0;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+
+        .navbar a:hover::before {
+            width: 100%;
+        }
+
+        /* Container for the EC2 form */
+        .container {
+            width: 60%;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #1b1b1b;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #FF4500;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input, button {
+            width: 80%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+        }
+
+        input {
+            background-color: #333;
+            color: white;
+        }
+
+        button {
+            background-color: #FF4500;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #e33d00;
+        }
+
+        #launchStatus {
+            margin-top: 20px;
+            color: #FF4500;
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 50px;
+            font-size: 0.9rem;
+            color: #FF4500;
+        }
+
+        .footer a {
+            color: #FF4500;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 2px solid #FF4500;
+            border-radius: 5px;
+            background-color: transparent;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .footer a:hover {
+            background-color: #FF4500;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <!-- <div class="navbar">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </div> -->
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Welcome to EC2 Launcher</h1>
+        <p>Launch your AWS EC2 instances with ease</p>
+    </section>
+
+    <div class="container">
+        <h1>Launch EC2 Instance</h1>
+        <form id="launchEC2Form">
+            <input type="text" id="aws_access_key" placeholder="AWS Access Key" required>
+            <input type="text" id="aws_secret_key" placeholder="AWS Secret Key" required>
+            <input type="text" id="region" placeholder="Region" required>
+            <input type="text" id="instance_name" placeholder="Instance Name" required>
+            <button type="submit">Launch Instance</button>
+        </form>
+        <div id="launchStatus"></div>
+    </div>
+
+    <!-- Footer -->
+    <!-- <div class="footer">
+        <a href="#">Go to AWS Console</a>
+    </div> -->
+
+    <script>
+        document.getElementById('launchEC2Form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const awsAccessKey = document.getElementById('aws_access_key').value;
+            const awsSecretKey = document.getElementById('aws_secret_key').value;
+            const region = document.getElementById('region').value;
+            const instanceName = document.getElementById('instance_name').value;
+
+            fetch('/launch_ec2', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ aws_access_key: awsAccessKey, aws_secret_key: awsSecretKey, region: region, instance_name: instanceName })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const statusDiv = document.getElementById('launchStatus');
+                statusDiv.innerHTML = `<p>${data.message || data.error}</p>`;
+            })
+            .catch(error => {
+                const statusDiv = document.getElementById('launchStatus');
+                statusDiv.innerHTML = `<p>Error: ${error.message}</p>`;
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Camera</title>
+    
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #000;
+            color: white;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        /* Navbar
+        .navbar {
+            display: flex;
+            justify-content: right;
+            padding: 20px;
+            background-color: transparent;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #FF4500;
+            font-weight: bold;
+        } */
+
+        .hero {
+            margin-top: 70px; /* Adjusted for fixed navbar */
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: #FF4500;
+        }
+
+        .hero p {
+            color: #FF4500;
+            font-style: italic;
+        }
+
+        /* Camera Feed */
+        .camera-feed {
+            margin: 20px auto;
+            width: 80%;
+            max-width: 800px;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            border: 2px solid #FF4500;
+        }
+
+        /* Buttons */
+        .btn-container {
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn {
+            background-color: #FF4500;
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1rem;
+            border-radius: 50px;
+            transition: background-color 0.3s, transform 0.3s;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #e03e00;
+            transform: scale(1.05);
+        }
+
+        .btn:active {
+            background-color: #c12b00;
+            transform: scale(0.95);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 50px;
+            font-size: 0.9rem;
+            color: #FF4500;
+        }
+
+        .footer a {
+            color: #FF4500;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 2px solid #FF4500;
+            border-radius: 5px;
+            background-color: transparent;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .footer a:hover {
+            background-color: #FF4500;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- <header>
+        <div class="navbar" id="navbar">
+            <a href="index.html">Home</a>
+            <a href="project.html">Projects</a>
+            <a href="about.html">About</a>
+            <a href="skills.html">Skills</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </header> -->
+
+    <section class="hero">
+        <h1>Live Camera Feed</h1>
+        <p>Watch the live feed from the camera.</p>
+    </section>
+
+    <section class="camera-feed">
+        <video id="live-camera" autoplay></video>
+    </section>
+
+    <section class="btn-container">
+        <button id="capture" class="btn">Capture</button>
+        <a id="download" class="btn" download="captured_image.png">Download</a>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 My Portfolio</p>
+        <p>
+            <a href="https://github.com" target="_blank">GitHub</a>   | 
+            <a href="https://www.linkedin.com/in/kunalgupta04/" target="_blank">LinkedIn</a>   |
+            <a href="https://www.instagram.com/kunalxsol/" target="_blank">Instagram</a>
+        </p>
+    </footer>
+
+    <script>
+        // Request user media (camera)
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function(stream) {
+                var video = document.getElementById('live-camera');
+                video.srcObject = stream;
+            })
+            .catch(function(error) {
+                console.error("Error accessing media devices.", error);
+            });
+
+        // Capture functionality
+        document.getElementById('capture').addEventListener('click', function() {
+            var video = document.getElementById('live-camera');
+            var canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            var context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Set up download link
+            var link = document.getElementById('download');
+            link.href = canvas.toDataURL('image/png');
+        });
+
+        // Scroll-based animations
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            
+            // Sticky navbar
+            if (window.scrollY > 50) {
+                navbar.classList.add('sticky');
+            } else {
+                navbar.classList.remove('sticky');
+            }
+        });
+    </script>
+
+</body>
+</html>

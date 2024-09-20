@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Cam</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #000;
+            color: white;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #FF4500;
+            border-radius: 10px;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: right;
+            padding: 20px;
+            background-color: transparent;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar.sticky {
+            background-color: #1b1b1b;
+        }
+
+        .navbar a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #FF4500;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .navbar a::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: #FF4500;
+            bottom: 0;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+
+        .navbar a:hover::before {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 50px;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            color: #FF4500;
+        }
+        .hero p {
+            color: #FF4500;
+            font-style: italic;
+        }
+
+        /* About Section */
+        .about {
+            margin: 0 auto;
+            width: 80%;
+            background-color: #1b1b1b;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(255, 69, 0, 0.6);
+        }
+        .about h2 {
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            color: #FF4500;
+        }
+        .about p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 50px;
+            font-size: 0.9rem;
+            color: #FF4500;
+        }
+
+        .footer a {
+            color: #FF4500;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 2px solid #FF4500;
+            border-radius: 5px;
+            background-color: transparent;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .footer a:hover {
+            background-color: #FF4500;
+            color: white;
+        }
+
+        /* Video Container */
+        .video-container {
+            margin-top: 60px; /* Adjusted for header space */
+            display: flex;
+            justify-content: center;
+        }
+
+        video {
+            width: 640px;
+            height: 480px;
+            border: 2px solid #FF4500;
+            border-radius: 10px;
+            background-color: #000;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <h1>Live Camera </h1>
+    </header>
+    <div class="video-container">
+        <video id="video" autoplay></video>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const video = document.getElementById('video');
+
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(stream => {
+                        video.srcObject = stream;
+                        video.play();
+                    })
+                    .catch(err => {
+                        console.error("Error accessing camera: ", err);
+                    });
+            } else {
+                alert("Sorry, your browser does not support camera access.");
+            }
+        });
+    </script>
+</body>
+</html>

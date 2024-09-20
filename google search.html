@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Search</title>
+    
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #000;
+            color: white;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: right;
+            padding: 20px;
+            background-color: transparent;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #FF4500;
+            font-weight: bold;
+        }
+
+        /* Search Section */
+        .search-section {
+            margin-top: 100px;
+        }
+
+        .search-section h1 {
+            font-size: 3rem;
+            color: #FF4500;
+        }
+
+        .search-section p {
+            font-style: italic;
+            color: #FF4500;
+        }
+
+        .search-form {
+            margin-top: 30px;
+        }
+
+        .search-input {
+            padding: 10px;
+            width: 300px;
+            border-radius: 5px;
+            border: 2px solid #FF4500;
+            background-color: #1b1b1b;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .search-button {
+            padding: 10px 20px;
+            background-color: #FF4500;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .search-button:hover {
+            background-color: #e03e00;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 50px;
+            font-size: 0.9rem;
+            color: #FF4500;
+        }
+
+        .footer a {
+            color: #FF4500;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 2px solid #FF4500;
+            border-radius: 5px;
+            background-color: transparent;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .footer a:hover {
+            background-color: #FF4500;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <a href="index.html">Home</a>
+            <a href="project.html">Projects</a>
+            <a href="about.html">About</a>
+            <a href="skills.html">Skills</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </header>
+
+    <section class="search-section">
+        <h1>Google Search</h1>
+        <p>Search the web using Google right from here!</p>
+
+        <form class="search-form" action="/search" method="POST">
+            <input class="search-input" type="text" name="search_query" placeholder="Search Google..." required>
+            <button class="search-button" type="submit">Search</button>
+        </form>
+        
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 My Portfolio</p>
+        <p>
+            <a href="https://github.com" target="_blank">GitHub</a>   | 
+            <a href="https://www.linkedin.com/in/kunalgupta04/" target="_blank">LinkedIn</a>   |
+            <a href="https://www.instagram.com/kunalxsol/" target="_blank">Instagram</a>
+        </p>
+    </footer>
+
+</body>
+</html>

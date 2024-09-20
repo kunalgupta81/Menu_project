@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker Metrics Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #000;
+            color: white;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #FF4500;
+            border-radius: 10px;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: flex-end;
+            padding: 20px;
+            background-color: transparent;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar.sticky {
+            background-color: #1b1b1b;
+        }
+
+        .navbar a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #FF4500;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .navbar a::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: #FF4500;
+            bottom: 0;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+
+        .navbar a:hover::before {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 50px;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            color: #FF4500;
+        }
+        .hero p {
+            color: #FF4500;
+            font-style: italic;
+        }
+
+        /* Chart Section */
+        canvas { 
+            display: block; 
+            margin: 20px auto; 
+            max-width: 90%; 
+        }
+
+        h1 {
+            color: #FF4500;
+            margin-bottom: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 50px;
+            font-size: 0.9rem;
+            color: #FF4500;
+        }
+        .footer a {
+            color: #FF4500;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 2px solid #FF4500;
+            border-radius: 5px;
+            background-color: transparent;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .footer a:hover {
+            background-color: #FF4500;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- <nav class="navbar">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </nav> -->
+
+    <div class="hero">
+        <h1>Docker Metrics Dashboard</h1>
+    </div>
+    
+    <canvas id="memoryChart" width="400" height="200"></canvas>
+    <canvas id="statusChart" width="400" height="200"></canvas>
+    <canvas id="storageChart" width="400" height="200"></canvas>
+
+    <!-- <div class="footer">
+        <a href="#">Back to Top</a>
+    </div> -->
+
+    <script>
+        async function fetchDockerMetrics() {
+            const response = await fetch('/metrics');
+            const data = await response.json();
+            return data;
+        }
+
+        async function renderCharts() {
+            const metrics = await fetchDockerMetrics();
+
+            // Memory Chart
+            new Chart(document.getElementById('memoryChart'), {
+                type: 'line',
+                data: {
+                    labels: ['1', '2', '3', '4', '5'],
+                    datasets: [{
+                        label: 'Memory Used (MB)',
+                        data: metrics.memory,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        fill: true
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Status Chart
+            new Chart(document.getElementById('statusChart'), {
+                type: 'pie',
+                data: {
+                    labels: ['Running', 'Stopped'],
+                    datasets: [{
+                        data: [
+                            metrics.status.filter(s => s === 'Running').length,
+                            metrics.status.filter(s => s === 'Stopped').length
+                        ],
+                        backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)']
+                    }]
+                }
+            });
+
+            // Storage Chart
+            new Chart(document.getElementById('storageChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['1', '2', '3', '4', '5'],
+                    datasets: [{
+                        label: 'Storage Used (GB)',
+                        data: metrics.storage,
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Render charts when page loads
+        renderCharts();
+    </script>
+</body>
+</html>

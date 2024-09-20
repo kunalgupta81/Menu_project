@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects</title>
+    
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #000;
+            color: white;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #FF4500;
+            border-radius: 10px;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: right;
+            padding: 20px;
+            background-color: transparent;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar.sticky {
+            background-color: #1b1b1b;
+        }
+
+        .navbar a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #FF4500;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .navbar a::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: #FF4500;
+            bottom: 0;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+
+        .navbar a:hover::before {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 50px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: #FF4500;
+        }
+
+        .hero p {
+            color: #FF4500;
+            font-style: italic;
+        }
+
+        .section-title {
+            margin: 50px 0;
+            font-size: 2.5rem;
+            color: #FF4500;
+        }
+
+        .projects {
+            margin: 0 auto;
+            width: 80%;
+            background-color: #1b1b1b;
+            border-radius: 10px;
+            padding: 0px;
+            box-shadow: 0 0 15px rgba(255, 69, 0, 0.6);
+        }
+
+        .projects-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .project {
+            width: calc(20% - 20px); /* Adjust to fit 5 boxes per row */
+            background-color: #2b2b2b;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+            text-align: center;
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+
+        .project:hover {
+            transform: scale(1.05);
+        }
+
+        .project img {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .project h3 {
+            margin-top: 10px;
+            color: #FF4500;
+            font-size: 1.25rem;
+        }
+
+        .project p {
+            font-size: 1rem;
+            color: #FF4500;
+            font-weight: bold;
+            margin: 10px 0 0;
+        }
+
+        /* Remove link styles */
+        .projects-list a {
+            text-decoration: none;
+            color: inherit; /* Use parent color */
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 50px;
+            font-size: 0.9rem;
+            color: #FF4500;
+        }
+
+        .footer a {
+            color: #FF4500;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 2px solid #FF4500;
+            border-radius: 5px;
+            background-color: transparent;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .footer a:hover {
+            background-color: #FF4500;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="navbar" id="navbar">
+            <a href="index.html">Home</a>
+            <a href="project.html">Projects</a>
+            <a href="about.html">About</a>
+            <a href="skills.html">Skills</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </header>
+
+    <section class="hero" id="projects">
+        <h1>My Projects</h1>
+        <p>Explore some of the projects I've worked on.</p>
+    </section>
+
+    <section class="projects">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="projects-list">
+            <!-- 19 Project Boxes -->
+            <a href="send sms.html" class="project">
+                <img src="../static/images/sms_image.png" alt="Project One">
+                <h3>Send SMS</h3>
+                <!-- <p>Function run on Send a Sms</p> -->
+            </a>
+
+            <a href="bulk_email.html" class="project">
+                <img src="../static/images/maxbulk-using-gmail.png" alt="Project Two">
+                <h3>Bulk Email</h3>
+                <!-- <p>One Click send bulk email</p> -->
+            </a>
+
+            <a href="get cordinates.html" class="project">
+                <img src="../static/images/get cordiante.jpeg" alt="Project Three">
+                <h3>Get Cordinates</h3>
+                <!-- <p>Description</p> -->
+            </a>
+
+            <a href="google search.html" class="project">
+                <img src="../static/images/google-search.webp" alt="Project Four">
+                <h3>Google Search</h3>
+                
+            </a>
+
+            <a href="launch_ec2.html" class="project">
+                <img src="/static/images/Amazon-EC2.jpg" alt="Project Five">
+                <h3>EC2 Launch Instance</h3>
+                <!-- <p>Description</p> -->
+            </a>
+
+            <a href="sppeachtotext.html" class="project">
+                <img src="../static/images/5-Best-Speech-to-Text-APIs-2-e1615383933700-1024x573.webp" alt="Project Six">
+                <h3>Speech to Text</h3>
+                <!-- <p>Description</p> -->
+            </a>
+
+            <a href="live_camera.html" class="project">
+                <img src="../static/images/images (1).jpg" alt="Project Seven">
+                <h3>Live Camera</h3>
+                <!-- <p>Description</p> -->
+            </a>
+
+            <a href="docker_dashboard.html" class="project">
+                <img src="../static/images/docker.svg" alt="Project Eight">
+                <h3>Docker Chart</h3>
+                <!-- <p>Description</p> -->
+            </a>
+
+            <!-- <a href="project9.html" class="project">
+                <img src="../static/images/new-message-concept-3d-mobile-application-icon-with-notification-vector.jpg" alt="Project Nine">
+                <h3>Whatsapp Messege</h3>
+                 <p>Description</p>
+            </a> -->
+
+            <a href="click_photo.html" class="project">
+                <img src="../static/images/picture.png" alt="Project Ten">
+                <h3>Capture Picture</h3>
+                <!-- <p>Description</p> -->
+            </a>
+
+            <!-- <a href="project11.html" class="project">
+                <img src="../static/images/pngtree-rainbow-icon-png-image_1645018.jpg" alt="Project Eleven">
+                <h3>Rainbow text Converter</h3>
+                 <p>Description</p>
+            </a> -->
+
+            <!-- <a href="project12.html" class="project">
+                <img src="../static/images/phone-6662438_1280.webp" alt="Project Twelve">
+                <h3>Phone Calls</h3>
+                <p>Description</p>
+            </a> -->
+
+            <!-- <a href="project13.html" class="project">
+                <img src="../static/images/firefox.jpg" alt="Project Thirteen">
+                <h3>Firefox Browser Acess</h3>
+                <p>Description</p> 
+            </a> -->
+
+            <a href="html_live_interpreter.html" class="project">
+                <img src="../static/images/html.png" alt="Project Fourteen">
+                <h3>Live Html Interpreter</h3>
+                <!-- <p>Description</p> -->
+            </a>
+
+            <!-- <a href="s3 bucket.html" class="project">
+                <img src="../static/images/s3 bucket.jpg" alt="Project Fifteen">
+                <h3>Create s3 bucket</h3>
+                <p>Description</p>
+            </a> -->
+
+            <a href="gemini.html" class="project">
+                <img src="../static/images/chat-bot-logo-design-concept-600nw-1938811039.webp" alt="Project Sixteen">
+                <h3>Your Chatbot</h3>
+                <!-- <p>Description</p> -->
+            </a>
+
+            <!-- New Project Entries -->
+            <a href="string_to_audio.html" class="project">
+                <img src="../static/images/1699269691011.jpg" alt="Project Seventeen">
+                <h3>Text to Audio Converter</h3>
+                <!-- <p>Description</p> -->
+            </a>
+
+            <!-- <a href="project18.html" class="project">
+                <img src="../static/images/project18.jpg" alt="Project Eighteen">
+                <h3>Project 18</h3>
+                <p>Description</p> -->
+            </a>
+
+            <!-- <a href="project19.html" class="project">
+                <img src="../static/images/project19.jpg" alt="Project Nineteen">
+                <h3>Project 19</h3> -->
+                <!-- <p>Description</p> -->
+            </a>
+
+            <!-- <a href="project20.html" class="project">
+                <img src="../static/images/project20.jpg" alt="Project Twenty">
+                <h3>Project 20</h3> -->
+                <!-- <p>Description</p> -->
+            </a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 My Portfolio</p>
+        <p>
+            <a href="https://github.com" target="_blank">GitHub</a>   | 
+            <a href="https://www.linkedin.com/in/kunalgupta04/" target="_blank">LinkedIn</a>   |
+            <a href="https://www.instagram.com/kunalxsol/" target="_blank">Instagram</a>
+        </p>
+    </footer>
+
+    <script>
+        // Scroll-based animations
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            
+            // Sticky navbar
+            if (window.scrollY > 50) {
+                navbar.classList.add('sticky');
+            } else {
+                navbar.classList.remove('sticky');
+            }
+        });
+    </script>
+
+</body>
+</html>

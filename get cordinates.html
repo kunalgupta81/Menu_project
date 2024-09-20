@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Coordinates and Place</title>
+    
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #000;
+            color: white;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            margin-top: 100px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #FF4500;
+        }
+
+        p {
+            color: #FF4500;
+        }
+
+        .button {
+            padding: 10px 20px;
+            background-color: #FF4500;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .button:hover {
+            background-color: #e03e00;
+        }
+
+        .coordinates {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #FF4500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Get Coordinates and Place</h1>
+        <p>Click the button below to get your current coordinates and place:</p>
+        <button class="button" onclick="getLocation()">Get Coordinates</button>
+
+        <div class="coordinates" id="coordinates">
+            <!-- Coordinates will be displayed here -->
+        </div>
+        <div class="coordinates" id="place">
+            <!-- Place name will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                document.getElementById('coordinates').innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            document.getElementById('coordinates').innerHTML =
+                "Latitude: " + latitude + 
+                "<br>Longitude: " + longitude;
+
+            // Fetch place using reverse geocoding from Nominatim (OpenStreetMap)
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`)
+            .then(response => response.json())
+            .then(data => {
+                const place = data.display_name || "Place not found";
+                document.getElementById('place').innerHTML = "Place: " + place;
+
+                // Send coordinates and place to the Flask backend
+                fetch('/save_coordinates', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        latitude: latitude,
+                        longitude: longitude,
+                        place: place
+                    })
+                })
+                .then(response => response.json())
+                .then(data => console.log('Response from server:', data))
+                .catch(error => console.error('Error saving data:', error));
+            })
+            .catch(error => {
+                document.getElementById('place').innerHTML = "Error fetching place.";
+                console.error('Error fetching place:', error);
+            });
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    document.getElementById('coordinates').innerHTML = "User denied the request for Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    document.getElementById('coordinates').innerHTML = "Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    document.getElementById('coordinates').innerHTML = "The request to get user location timed out.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    document.getElementById('coordinates').innerHTML = "An unknown error occurred.";
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
